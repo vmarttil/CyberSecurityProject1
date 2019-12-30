@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Events and Registrations</title>
+    </head>
+    <body>
+        <h1><span th:text="${fullName}">full name</span>: Events and Registrations</h1>
+        <h2>Administered events</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event name</th><th>Date</th><th>Location</th><th>Registrations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${events.empty}">
+                    <td colspan="4">No events</td>
+                </tr>
+                <tr th:each="event : ${events}">
+                    <td><a th:href="@{/events/{id}(id=${event.id})}" th:text="${event.name}">event name</a></td>
+                    <td th:text="${event.eventDate}">event date</td>
+                    <td th:text="${event.eventLocation}">event location</td>
+                    <td th:text="${event.registrations.size()}">number of registrations</td>
+                    <td><form th:action="@{/events/{id}(id=${event.id})}" th:method="delete"><input type="submit" value="Delete"/></form></td>
+                </tr>
+            </tbody>
+        </table>
+        <form th:action="@{/events}" th:method="post"><input type="submit" value="Create new event"/></form>
+        
+        <h2>Registrations to events</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event name</th><th>Date</th><th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${registrations.empty}">
+                    <td colspan="3">No registrations</td>
+                </tr>
+                <tr th:each="registration : ${registrations}">
+                    <td><a th:href="@{/events/{eventId}(eventId=${registration.event.id})/registrations/{id}(id=${registration.id})}" th:text="${registration.event.eventName}">event name</a></td>
+                    <td th:text="${registration.event.eventDate}">event date</td>
+                    <td th:text="${registration.event.eventLocation}">event location</td>
+                    <td><a onclick="alert(${registration.event.eventDescription})">Description</a></td>
+                    <td><form th:action="@{/events/{eventId}(eventId=${registration.event.id})/registrations/{id}(id=${registration.id})}" th:method="delete"><input type="submit" value="Cancel"/></form></td>
+                </tr>
+            </tbody>
+        </table>
+        <form th:action="@{/registration}" th:method="post"><input type="submit" value="Create new event"/></form>
+        
+        <h3>Register to a new event</h3>
+        <form action="#" th:action="@{/registration}" th:method="post">
+            <p>
+                <label for="event">Select event</label>: 
+                <select name="event" id="event">
+                    <option th:each="event : ${openEvents}" th:text="${event.eventName} + ', ' + ${event.eventDate + ', ' + ${event.eventLocation}}" value="${event.id}">event info</option>
+                </select>
+                <input type="submit" value="Register"/>
+            </p>
+        </form>
+        
+    </body>
+</html>
