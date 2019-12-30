@@ -1,7 +1,6 @@
 package sec.project.domain;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,12 +21,6 @@ public class Registration extends AbstractPersistable<Long> {
     private Account account;
     @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL)
     private PreferenceProfile preferences;
-    
-    public Registration(Event event, Account account, PreferenceProfile preferences) {
-        this.event = event;
-        this.account = account;
-        this.preferences = preferences;
-    }
 
     public Event getEvent() {
         return this.event;
@@ -45,10 +38,12 @@ public class Registration extends AbstractPersistable<Long> {
         this.account = account;
     }
 
+    @Override
     public Long getId() {
         return this.id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

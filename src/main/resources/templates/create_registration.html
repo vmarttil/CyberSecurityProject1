@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Register to event</title>
+    </head>
+    <body>
+        <h1>Register to event: <span th:text="${event.getName()}">name of event</span></h1>
+
+        <form action="#" th:action="@{@{/registrations/{id}(id=${event.id})}}" method="POST">
+            <h3>Registrant details:</h3>
+            <p><label>Registrant name</label>: <span th:text="${account.getFullName()}">registrant name</span></p>
+            <p><label>Registrant gender</label>: <span th:text="${account.getGender()}">registrant gender</span></p>
+            <p><label>Registrant age</label>: <span th:text="${account.calculateAge()}">registrant age</span></p>
+            <h3>Character preferences:</h3>
+            
+            <p><label for="genderPref">Gender preference</label>: 
+                <select name="genderPref" id="genderPref">
+                    <option th:each="pref : ${genderPrefList}" th:text="${pref}" th:value="${pref}">gender option</option>
+                    <!--<option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Non-binary">Non-binary</option>-->
+                </select>
+            </p>
+            <p><label for="genderPref">Age preference</label>: 
+                <select name="agePref" id="agePref">
+                    <option th:each="pref : ${agePrefList}" th:text="${pref}" th:value="${pref}">age option</option>
+                    <!--<option value="Young">Young</option>
+                    <option value="Middle-aged">Middle-aged</option>
+                    <option value="Elderly">Elderly</option>-->
+                </select>
+            </p>
+            <fieldset>      
+                <legend>Plot keywords:</legend>      
+                <input th:each="keyword : ${plotKeywordList}" type="checkbox" name="plotKeywords" th:text="${keyword}" th:value="${keyword}">plot keyword</input>
+            </fieldset>
+            <p><label for="freePrefs">Other preferences</label>:<br/> <textarea rows="8" cols="40" name="freePrefs" id="freePrefs"></textarea></p>
+            <p><input type="submit" value="Register"/></p>
+        </form>
+        <form th:action="@{/userview}" th:method="get">
+            <input type="submit" value="Cancel"/>
+        </form>
+    </body>
+</html>

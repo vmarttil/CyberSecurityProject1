@@ -1,40 +1,27 @@
 package sec.project.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.AbstractPersistable;
-import sec.project.repository.EventRepository;
-import sec.project.repository.AccountRepository;
-import sec.project.repository.RegistrationRepository;
 
 @Entity
 public class Event extends AbstractPersistable<Long> {
-
-    //@Autowired
-    //private EventRepository eventRepository;
-    
-    //@Autowired
-    //private AccountRepository accountRepository;
-    
-    //@Autowired
-    //private RegistrationRepository registrationRepository;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String eventName;
     private String eventLocation;
-    private Date eventDate;
+    private LocalDate eventStartDate;
+    private LocalDate eventEndDate;
     private String eventDescription;
     private boolean registrationOpen; 
     @ManyToOne
@@ -42,13 +29,6 @@ public class Event extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "event")
     private List<Registration> registrations;
     
-    public Event(String name, String location, Date eventDate, Account admin) {
-        this.eventName = name;
-        this.eventLocation = location;
-        this.eventDate = eventDate;
-        this.registrationOpen = true;
-        this.eventAdmin = admin;
-    }
 
     @Override
     public Long getId() {
@@ -58,6 +38,10 @@ public class Event extends AbstractPersistable<Long> {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public String printId() {
+        return this.id.toString();
     }
     
     public String getName() {
@@ -76,14 +60,39 @@ public class Event extends AbstractPersistable<Long> {
         this.eventLocation = location;
     }
 
-    public Date getEventDate() {
-        return this.eventDate;
+    public LocalDate getEventStartDate() {
+        return this.eventStartDate;
     }
 
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
+    public void setEventStartDate(LocalDate eventStartDate) {
+        this.eventStartDate = eventStartDate;
     }
 
+    public LocalDate getEventEndDate() {
+        return this.eventEndDate;
+    }
+    
+    public void setEventEndDate(LocalDate eventEndDate) {
+        this.eventEndDate = eventEndDate;
+    }
+    
+    public String printEventDate() {
+        String start = eventStartDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String end = eventEndDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        
+        if (start.equals(end)) {
+            return start.replaceAll("0([1-9]\\.)","$1");
+        } else {
+            if (start.substring(6).equals(end.substring(6))) {
+                start = start.substring(0,6);
+                if (start.substring(3).equals(end.substring(3,6))) {
+                    start = start.substring(0,3);
+                }
+            }
+            return start.replaceAll("0([1-9]\\.)","$1") + "–" + end.replaceAll("0([1-9]\\.)","$1");
+        }
+    }
+    
     public String getDescription() {
         return this.eventDescription;
     }

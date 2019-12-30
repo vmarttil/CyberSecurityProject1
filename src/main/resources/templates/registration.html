@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Registration</title>
+    </head>
+    <body>
+        <h1><span th:text="${registrant.getFullName()}">name of registrant</span>: Registration to <span th:text="${event.getName()}">name of event</span></h1>
+
+        <h2>Event information</h2>
+        <table>
+            <tr>
+                <td style="font-weight: bold">Date: </td>
+                <td th:text="${event.printEventDate()}">event date</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">Location: </td>
+                <td th:text="${event.getLocation()}">event location</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">Registration: </td>
+                <td th:if="${event.isRegistrationOpen() == true}">Open</td>
+                <td th:if="${event.isRegistrationOpen() == false}">Closed</td>
+            </tr>
+        </table>
+        
+        <h2>Registrant details</h2>
+        <table>
+            <tr>
+                <td style="font-weight: bold">Name: </td>
+                <td th:text="${registrant.getFullName()}">registrant name</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">E-mail: </td>
+                <td th:text="${registrant.getEmail()}">registrant e-mail</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">Gender: </td>
+                <td th:text="${registrant.getGender()}">registrant gender</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">Age: </td>
+                <td th:text="${registrant.calculateAge()}">registrant age</td>
+            </tr>
+        </table>
+        
+        <h2>Character preferences</h2>
+        <table>
+            <tr>
+                <td style="font-weight: bold">Gender preference: </td>
+                <td th:text="${preferences.getGenderPref()}">gender preference</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">Age preference: </td>
+                <td th:text="${preferences.getAgePref()}">age preference</td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">Plot keywords: </td>
+                <td th:text="${preferences.listPlotKeywords()}">plot keywords</td>
+            </tr>
+        </table>    
+        <dl>
+            <dt style="font-weight: bold">Other preferences: </dt>
+            <dd th:text="${preferences.getFreePrefs()}">other preferences</dd>
+        </dl>
+        <br/>
+        <form th:action="@{/userview}" th:method="get">
+            <input type="submit" value="Back"/>
+        </form>
+    </body>
+</html>

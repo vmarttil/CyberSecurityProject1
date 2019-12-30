@@ -20,22 +20,19 @@ public class PreferenceProfile extends AbstractPersistable<Long> {
     @MapsId
     private Registration registration;
     private String genderPref;
+    private static String[] GENDERPREFS = new String[]{"Female","Male","Non-binary"};
     private String agePref;
-    private String plotKeywords;
+    private static String[] AGEPREFS = new String[]{"Young","Middle-aged","Elderly"};
+    private String[] plotKeywords;
+    private static String[] PLOTKEYWORDS = new String[]{"action","crime","drama","family","intrigue", "politics", "romance", "violence"};
     private String freePrefs;
-
-    public PreferenceProfile(Registration registration, String genderPref, String agePref, String plotKeywords, String freePrefs) {
-        this.registration = registration;
-        this.genderPref = genderPref;
-        this.agePref = agePref;
-        this.plotKeywords = plotKeywords;
-        this.freePrefs = freePrefs;
-    }
     
+    @Override
     public Long getId() {
         return this.id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -47,7 +44,7 @@ public class PreferenceProfile extends AbstractPersistable<Long> {
     public void setRegistration(Registration registration) {
         this.registration = registration;
     }
-
+    
     public String getGenderPref() {
         return this.genderPref;
     }
@@ -56,6 +53,10 @@ public class PreferenceProfile extends AbstractPersistable<Long> {
         this.genderPref = genderPref;
     }
 
+    public static String[] getGENDERPREFS() {
+        return GENDERPREFS;
+    }
+    
     public String getAgePref() {
         return this.agePref;
     }
@@ -64,14 +65,31 @@ public class PreferenceProfile extends AbstractPersistable<Long> {
         this.agePref = agePref;
     }
 
-    public String getPlotKeywords() {
+    public static String[] getAGEPREFS() {
+        return AGEPREFS;
+    }
+    
+    public String[] getPlotKeywords() {
         return this.plotKeywords;
     }
 
-    public void setPlotKeywords(String plotKeywords) {
+    public void setPlotKeywords(String[] plotKeywords) {
         this.plotKeywords = plotKeywords;
     }
 
+    public String listPlotKeywords() {
+        String keywords = "";
+        for (int i = 0; i < this.plotKeywords.length - 1; i++) {
+            keywords = keywords + this.plotKeywords[i] + ", ";
+        }
+        keywords = keywords + this.plotKeywords[this.plotKeywords.length - 1];
+        return keywords;
+    }
+    
+    public static String[] getPLOTKEYWORDS() {
+        return PLOTKEYWORDS;
+    }
+    
     public String getFreePrefs() {
         return this.freePrefs;
     }

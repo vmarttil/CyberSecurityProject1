@@ -1,8 +1,8 @@
 package sec.project.config;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,37 +17,33 @@ import sec.project.repository.AccountRepository;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     
-    /*
-    private Map<String, String> accountDetails;
-
-    @PostConstruct
-    public void init() {
-        // this data would typically be retrieved from a database
-        this.accountDetails = new TreeMap<>();
-        this.accountDetails.put("admin", "1234");
-        this.accountDetails.put("ted", "$2a$06$rtacOjuBuSlhnqMO2GKxW.Bs8J6KI0kYjw/gtF0bfErYgFyNTZRDm");
-    }
-    */
-    
     @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
     @PostConstruct
     public void init() {
         Account account = new Account();
         account.setUsername("roger");
         account.setPassword(passwordEncoder.encode("carrots"));
         account.setFullName("Roger Sample");
+        account.setEmail("roger.sample@example.com");
+        account.setGender("Male");
+        account.setBirthdate(LocalDate.parse("1977-05-23", formatter));
         accountRepository.save(account);
-        
         account = new Account();
         account.setUsername("valiant");
         account.setPassword(passwordEncoder.encode("vaudeville"));
         account.setFullName("Prince Valiant");
+        account.setEmail("prince.valiant@example.com");
+        account.setGender("Male");
+        account.setBirthdate(LocalDate.parse("1986-02-26", formatter));
         accountRepository.save(account);
+        
     }
     
     @Override

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create new event</title>
+    </head>
+    <body>
+        <h1>Create new event</h1>
+
+        <form action="#" th:action="@{/events}" method="POST">
+            <p><label for="name">Event name</label>: <input type="text" name="name" id="name" required="true"/></p>
+            <p><label for="startDate">Start date</label>: <input type="date" name="startDate" id="startDate" required="true"/></p>
+            <p><label for="endDate">End date</label>: <input type="date" name="endDate" id="endDate" required="true"/></p>
+            <p><label for="location">Location</label>: <input type="text" name="location" id="location"/></p>
+            <p><label for="description">Event description</label>:<br/> <textarea rows="8" cols="40" name="description" id="description"/></p>
+            <p><input type="submit" value="Create"/></p>
+        </form>
+        <form th:action="@{/userview}" th:method="get">
+            <input type="submit" value="Cancel"/>
+        </form>
+    </body>
+</html>
