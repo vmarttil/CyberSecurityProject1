@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create user account</title>
+    </head>
+    <body>
+        <h1>Create user account</h1>
+
+        <form action="#" th:action="@{/create_account}" method="POST">
+            
+            <p>
+                <label for="newUsername">Username</label>: 
+                <input type="text" name="newUsername" id="newUsername" required="true"/>
+            </p>
+            <p th:if="${duplicateUsername}" style="font-weight: bold; color: red;">The selected username already exists.</p>
+            <p>
+                <label for="newPassword">Password</label>: 
+                <input type="password" name="newPassword" id="newPassword" required="true"/>
+            </p>
+            <p>
+                <label for="newFullName">Full name</label>: 
+                <input type="text" name="newFullName" id="newFullName" required="true"/>
+            </p>
+            <p>
+                <label for="newEmail">E-mail</label>: 
+                <input type="text" name="newEmail" id="newEmail" required="true"/>
+            </p>
+            <p>
+                <label for="newGender">Gender</label>: 
+                <select name="newGender" id="newGender" required="true">
+                    <option th:each="gen : ${genderList}" th:text="${gen}" th:value="${gen}">gender option</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </p>
+            <p>
+                <label for="newBirthdate">Birthdate</label>: 
+                <input type="date" name="newBirthdate" id="newBirthdate" required="true"/>
+            </p>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </form>
+        <form th:action="@{/login}" th:method="get">
+            <input type="submit" value="Cancel"/>
+        </form>
+    </body>
+</html>

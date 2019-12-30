@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -28,11 +29,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         
         http
                 .authorizeRequests()
-                    .antMatchers("/login/**").permitAll()
+                    .antMatchers( "/public/**").permitAll()
+                    .antMatchers("/create_account").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
-                    .permitAll();
+                    .loginPage("/login.html")
+                    .failureUrl("/login-error.html")
+                    .defaultSuccessUrl("/userview", true)
+                    .permitAll()
+                .and()
+                    .logout()
+                    .invalidateHttpSession(true);
     }
 
     @Autowired
@@ -42,6 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // VULNERABILITY: The passwords should be stored in an encoded form using a password encoder such as BCryptPasswordEncoder
+        //return NoOpPasswordEncoder.getInstance();
         return new BCryptPasswordEncoder();
     }
 }

@@ -14,19 +14,15 @@
             <h3>Character preferences:</h3>
             
             <p><label for="genderPref">Gender preference</label>: 
-                <select name="genderPref" id="genderPref">
+                <select name="genderPref" id="genderPref" required="true">
                     <option th:each="pref : ${genderPrefList}" th:text="${pref}" th:value="${pref}">gender option</option>
-                    <!--<option value="Female">Female</option>
-                    <option value="Male">Male</option>
-                    <option value="Non-binary">Non-binary</option>-->
+                    <option value="Any">Any</option>
                 </select>
             </p>
             <p><label for="genderPref">Age preference</label>: 
-                <select name="agePref" id="agePref">
+                <select name="agePref" id="agePref" required="true">
                     <option th:each="pref : ${agePrefList}" th:text="${pref}" th:value="${pref}">age option</option>
-                    <!--<option value="Young">Young</option>
-                    <option value="Middle-aged">Middle-aged</option>
-                    <option value="Elderly">Elderly</option>-->
+                    <option value="Any">Any</option>
                 </select>
             </p>
             <fieldset>      

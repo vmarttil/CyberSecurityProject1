@@ -4,7 +4,7 @@
         <title>Account view</title>
     </head>
     <body>
-        <h1>Account: <span th:text="${fullName}">full name</span></h1>
+        <h1>Account: <span th:text="${account.getFullName()}">full name</span></h1>
         <h2>Details</h2>
         <table>
             <tr>
@@ -81,6 +81,10 @@
                 </select>
                 <input type="submit" value="Register"/>
             </p>
+        </form>
+        <h2>Log out</h2>
+        <form th:action="@{/logout}" th:method="get">
+            <input type="submit" value="Log out"/>
         </form>
         
     </body>
